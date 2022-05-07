@@ -1,0 +1,10 @@
+*.png
+*.jpg
+*.npy
+*.npz
+*.json
+*.csv
+*.zip
+.idea/
+__pycache__/
+
