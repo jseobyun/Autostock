@@ -1,6 +1,5 @@
-from asset.etf import ETF
-from portfolio import Portfolio
-
+from rule.aa import Portfolio
+from rule.dual_momentum import DualMomentum
 if __name__=='__main__':
     # spy = ETF('SPY')
     # ief = ETF('IEF')

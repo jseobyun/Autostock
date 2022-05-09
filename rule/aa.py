@@ -1,7 +1,9 @@
+from rule.base import Base
 from asset.etf import ETF
 
-class Portfolio():
+class Portfolio(Base):
     def __init__(self, pf):
+        super(Portfolio, self).__init__(pf)
         self.tickers = []
         self.items = {}
         self.cash = 0
@@ -21,17 +23,6 @@ class Portfolio():
         self.total_investment = 0
         self.total_outcome = 0
 
-    def printAll(self):
-        print("################")
-        for ticker in self.tickers:
-            print(f"{ticker} : {self.counts[ticker]}")
-        print("Cash : ", self.cash)
-        print("Total outcome : ", self.total_outcome)
-        print("################")
-
-    def deposit(self, cash):
-        self.cash += cash
-
     def buy(self, ticker, year, month, day, count):
         ticker = ticker.upper()
         if ticker not in self.tickers:
@@ -48,7 +39,7 @@ class Portfolio():
 
         print(f"buying {ticker} at price {price}")
         self.cal_total_outcome()
-        self.printAll()
+        self.print()
 
 
     def sell(self, ticker, year, month, day, count):
@@ -67,7 +58,7 @@ class Portfolio():
 
         print(f"selling {ticker} at price {price}")
         self.cal_total_outcome()
-        self.printAll()
+        self.print()
 
 
     def cal_total_outcome(self, year=None, month=None, day=None):
