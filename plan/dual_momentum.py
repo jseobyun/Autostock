@@ -1,6 +1,6 @@
-from rule.base import Base
+from plan.base import Plan
 
-class DualMomentum(Base):
+class DualMomentum(Plan):
     def __init__(self, profile):
         super(DualMomentum, self).__init__()
 

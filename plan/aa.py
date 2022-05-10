@@ -1,34 +1,33 @@
-from rule.base import Base
+from plan.base import Plan
 from asset.etf import ETF
 
-class Portfolio(Base):
-    def __init__(self, pf):
-        super(Portfolio, self).__init__(pf)
-        self.tickers = []
-        self.items = {}
-        self.cash = 0
-        self.ratios = {}
-        self.counts = {}
-        ratio_sum = 0
-        for ticker in list(pf.keys()):
-            self.tickers.append(ticker.upper())
-            self.ratios[ticker.upper()] = pf[ticker]
-            self.counts[ticker.upper()] = 0
-            ### classify asset : if etf or stock or coin
-            self.items[ticker.upper()] = ETF(ticker)
-            ratio_sum += pf[ticker]
-        assert ratio_sum == 1, "The sum of ratios is not 100%"
+class StaticAssetAllocation(Plan):
+    def __init__(self, tickers):
+        super(StaticAssetAllocation, self).__init__(tickers)
 
-        print(f"Portfolio is initialized with {self.tickers}")
-        self.total_investment = 0
-        self.total_outcome = 0
+    def initialize(self, ratios, **kwargs):
+        ratio_sum = 0
+        self.ratios = {}
+        for ticker in list(ratios.keys()):
+            assert ticker in self.tickers, "ticker is not matched."
+            ratio = ratios[ticker]
+            ratio_sum += ratio
+            self.ratios[ticker] = ratio
+        assert ratio_sum == 1, "Asset ratios are invalid. sum(ratios) > 1"
+
+    def run(self):
+        ###
+
+        ###
+        return
+
 
     def buy(self, ticker, year, month, day, count):
         ticker = ticker.upper()
         if ticker not in self.tickers:
             print("Wrong ticker : Portfolio does not support.")
             return
-        item = self.items[ticker]
+        item = self.data[ticker]
         price = item.close(year, month, day)
         total_price = count * price
         if self.cash < total_price:
@@ -47,7 +46,7 @@ class Portfolio(Base):
         if ticker not in self.tickers:
             print("Wrong ticker : Portfolio does not support.")
             return
-        item = self.items[ticker]
+        item = self.data[ticker]
         if self.counts[ticker] < count:
             print(f"Current {self.counts[ticker]} {ticker} exists. : try lower than {count}")
             return
@@ -64,7 +63,7 @@ class Portfolio(Base):
     def cal_total_outcome(self, year=None, month=None, day=None):
         curr_outcome = 0
         for ticker in self.tickers:
-            item = self.items[ticker]
+            item = self.data[ticker]
             if year is None: # month is None and day is None:
                 price = item.close()[-1]
             else:

@@ -1,5 +1,5 @@
-from rule.aa import Portfolio
-from rule.dual_momentum import DualMomentum
+from plan.aa import StaticAssetAllocation
+from plan.dual_momentum import DualMomentum
 if __name__=='__main__':
     # spy = ETF('SPY')
     # ief = ETF('IEF')
@@ -13,12 +13,11 @@ if __name__=='__main__':
         'DBC' : 0.2,
         'GLD' : 0.2,
     }
-    pf = Portfolio(ratio)
+    pf = StaticAssetAllocation(['VOO', 'QQQ', 'DBC', 'GLD'])
+    pf.initialize(ratio)
     pf.deposit(100000)
-    pf.buy('voo', 2017, 3, 4, count=3)
-    pf.sell('voo', 2017, 3, 4, count=3)
-    pf.buy('qqq', 2020, 4, 8, count=3)
+    # pf.buy('voo', 2017, 3, 4, count=3)
+    # pf.sell('voo', 2017, 3, 4, count=3)
+    # pf.buy('qqq', 2020, 4, 8, count=3)
 
 
-
-    print("")
